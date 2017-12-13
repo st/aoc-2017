@@ -3,7 +3,7 @@
     [clojure.test :refer :all]
     [aoc-2017.day5 :refer :all]))
 
-(deftest test-sol
+#_(deftest test-sol
   (is (= 5 (sol1 [0 [0 3 0 1 -3]])))
   (is (= 373160
          (sol1
