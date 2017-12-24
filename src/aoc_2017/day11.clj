@@ -1,7 +1,6 @@
 (ns aoc-2017.day11)
 
-(def sqrt3 (Math/sqrt 3.0))
-(def half-sqrt3 (/ sqrt3 2.0))
+(def half-sqrt3 (/ (Math/sqrt 3.0) 2.0))
 
 (def dir-deltas {"n"  [0 1]
                  "nw" [(- half-sqrt3) 0.5]
@@ -18,7 +17,7 @@
   [[x y] [dx dy]]
   [(+ x dx) (+ y dy)])
 
-(defn next-to-origin
+(defn toward-origin
   [[x y]]
   (->> dir-deltas
        vals
@@ -27,8 +26,7 @@
        (sort-by second)
        ffirst))
 
-;; (apply min (map compute-distance
-;;                 (map (partial move [x y]) (vals dir-deltas)))))
+(def mem-toward-origin (memoize toward-origin))
 
 (defn move-by-dirs
   [x-y dirs]
@@ -36,30 +34,38 @@
        (map dir-deltas)
        (reduce move x-y)))
 
-(defn move-s
-  [s]
-  (->> (clojure.string/split s #",")
-       (move-by-dirs [0 0])))
-
 (defn origin?
   [[x y]]
   (<= (compute-distance [x y]) 1e-10))
 
 (defn nb-steps
-  [s]
-  (->> s
-       move-s
-       (iterate next-to-origin)
+  [dirs]
+  (->> dirs
+       (move-by-dirs [0 0])
+       (iterate mem-toward-origin)
        (take-while (complement origin?))
        count))
 
+(defn successive
+  [xs]
+  (reduce #(conj %1 (vec (conj (last %1) %2))) [] xs))
+
+(defn nb-steps-s
+  [s]
+  (->> (clojure.string/split s #",")
+       nb-steps))
+
+(defn furthest
+  [s]
+  (->> (->> (clojure.string/split s #",")
+            successive
+            (map nb-steps)
+            (apply max))))
+
 (defn sol1
   []
-  (nb-steps (slurp "src/resources/day11.txt")))
+  (nb-steps-s (slurp "src/resources/day11.txt")))
 
-(def check
-  (map nb-steps
-       ["ne,ne,ne"
-        "ne,ne,sw,sw"
-        "ne,ne,s,s"
-        "se,sw,se,sw,sw"]))
+(defn sol2
+  []
+  (furthest (slurp "src/resources/day11.txt")))
