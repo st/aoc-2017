@@ -4,6 +4,7 @@
     [clojure.test :refer :all]))
 
 (deftest test-sol
-  (time (do (is (= 812 (sol1)))
-            (is (= 1603 (sol2))))
-        ))
+  (is (= 812 (sol1)))
+  (is (= 1603 (sol2)))
+  (is (= 1603 (sol3)))
+  )

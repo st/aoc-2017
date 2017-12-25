@@ -46,6 +46,8 @@
        (take-while (complement origin?))
        count))
 
+(def mem-nb-steps (memoize nb-steps))
+
 (defn successive
   [xs]
   (reduce #(conj %1 (vec (conj (last %1) %2))) [] xs))
@@ -57,10 +59,17 @@
 
 (defn furthest
   [s]
-  (->> (->> (clojure.string/split s #",")
-            successive
-            (map nb-steps)
-            (apply max))))
+  (->> (clojure.string/split s #",")
+       successive
+       (map nb-steps)
+       (apply max)))
+
+(defn mem-furthest
+  [s]
+  (->> (clojure.string/split s #",")
+       successive
+       (map mem-nb-steps)
+       (apply max)))
 
 (defn sol1
   []
@@ -68,4 +77,8 @@
 
 (defn sol2
   []
-  (furthest (slurp "src/resources/day11.txt")))
+  (time (furthest (slurp "src/resources/day11.txt"))))
+
+(defn sol3
+  []
+  (time (mem-furthest (slurp "src/resources/day11.txt"))))
