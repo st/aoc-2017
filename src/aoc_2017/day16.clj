@@ -33,11 +33,31 @@
         (s/replace b a)
         (s/replace \. b))))
 
+(defn repeat-f
+  [f x n]
+  (nth (iterate f x) n))
+
 (defn all-dances
-  [s dances]
-  (reduce dance s dances))
+  ([steps s]
+   (reduce dance s steps))
+  ([steps s n]
+   (repeat-f (partial all-dances steps) s n)))
+
+(defn idempotent
+  ([f x]
+   (idempotent f x 1 (f x)))
+  ([f x n v]
+   (if (= x v)
+     n
+     (recur f x (inc n) (f v)))))
 
 (defn sol
-  []
-  (all-dances "abcdefghijklmnop"
-              (s/split (slurp "src/resources/day16.txt") #",")))
+  [n]
+  (let [steps (s/split (slurp "src/resources/day16.txt") #",")
+        f (partial all-dances steps)
+        input "abcdefghijklmnop"
+        n (if (= 1 n)
+            1
+            (mod n (idempotent f input)))]
+    (all-dances steps input n)))
+

@@ -8,13 +8,26 @@
 ;; pe/b, swapping programs e and b: baedc.
 
 (deftest test-shift
-  (is (= "eabcd" (dance "abcde" "s1" )))
-  (is (= "eabdc" (dance "eabcd" "x3/4" )))
-  (is (= "baedc" (dance "eabdc" "pe/b" )))
+  (is (= "eabcd" (dance "abcde" "s1")))
+  (is (= "eabdc" (dance "eabcd" "x3/4")))
+  (is (= "baedc" (dance "eabdc" "pe/b")))
 
-  (is (= "baedc" (all-dances "abcde" ["s1"
-                                      "x3/4"
-                                      "pe/b"]))))
+  (is (= "baedc" (all-dances ["s1"
+                              "x3/4"
+                              "pe/b"]
+                             "abcde" ))))
 
 (deftest test-sol
-  (is (= "dcmlhejnifpokgba" (sol))))
+  (is (= "dcmlhejnifpokgba" (sol 1)))
+  (is (= "ifocbejpdnklamhg" (sol 1e9))))
+
+
+
+
+
+
+
+
+
+
+

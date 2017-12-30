@@ -6,5 +6,5 @@
 (deftest test-sol
   (is (= 812 (sol1)))
   (is (= 1603 (sol2)))
-  (is (= 1603 (sol3)))
-  )
+  (is (= 1603 (sol3))))
+

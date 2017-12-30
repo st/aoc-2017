@@ -12,10 +12,10 @@
 (defn next-until-out
   ([cursor-offsets cursor-fn]
    (next-until-out 0 cursor-offsets cursor-fn))
-   ([gen cursor-offsets cursor-fn]
-    (if (>= (first cursor-offsets) (count (second cursor-offsets)))
-      gen
-      (recur (inc gen) (next-cursor-offsets cursor-offsets cursor-fn) cursor-fn))))
+  ([gen cursor-offsets cursor-fn]
+   (if (>= (first cursor-offsets) (count (second cursor-offsets)))
+     gen
+     (recur (inc gen) (next-cursor-offsets cursor-offsets cursor-fn) cursor-fn))))
 
 (defn sol1
   [cursor-offsets]
