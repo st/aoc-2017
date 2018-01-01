@@ -5,4 +5,5 @@
 
 
 (deftest test-sol
-  (is (= 2951 (sol))))
+  (is (= 2951 (sol)))
+  (is (= 7366 (sol2))))
