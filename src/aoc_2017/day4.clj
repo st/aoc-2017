@@ -33,11 +33,7 @@
 
 (defn no-anagram?
   [s]
-  (let [ws (words s)
-        r (range (count ws))
-        pairs (for [i r j r :when (not= i j)]
-                [(nth ws i) (nth ws j)])]
-    (not-any? anagram? pairs)))
+  (->> s words pairs (not-any? anagram?)))
 
 (defn nb-for-predicate
   [p coll]
