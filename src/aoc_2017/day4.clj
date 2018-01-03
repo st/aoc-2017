@@ -24,6 +24,13 @@
   [[s1 s2]]
   (= (sort s1) (sort s2)))
 
+(defn pairs
+  [coll]
+  (loop [[x & xs] coll res []]
+    (if (empty? xs)
+      res
+      (recur xs (concat res (map (fn[e] [x e]) xs))))))
+
 (defn no-anagram?
   [s]
   (let [ws (words s)
